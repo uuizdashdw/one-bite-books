@@ -11,11 +11,13 @@ export default function GlobalLayout({
 }) {
 	return (
 		<div className={styles.container}>
-			<header>
-				<Link href={'/'}>📚 One Bite Books</Link>
+			<header className={styles.header}>
+				<Link href={'/'}>📚 ONE BITE BOOKS</Link>
 			</header>
-			<main>{children}</main>
-			<footer>제작 @uuizdashdw</footer>
+			<main className={styles.main}>{children}</main>
+			<footer className={styles.footer}>
+				제작 @uuizdashdw
+			</footer>
 		</div>
 	);
 }
