@@ -1,14 +1,13 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 
+// Layout
+import GlobalLayout from '@/components/layout/global-layout';
+
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<div>
-			<header>헤더</header>
-			<main>
-				<Component {...pageProps} />;
-			</main>
-			<footer>푸터</footer>
-		</div>
+		<GlobalLayout>
+			<Component {...pageProps} />
+		</GlobalLayout>
 	);
 }
