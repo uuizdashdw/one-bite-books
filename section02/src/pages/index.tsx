@@ -7,13 +7,13 @@ import SearchableLayout from '@/components/layout/searchable-layout';
 
 // Type
 import { ReactNode } from 'react';
-import { InferGetServerSidePropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 
 // API
 import fetchBooks from '@/lib/fetchBooks';
 import fetchRandomBooks from '@/lib/fetchRandomBooks';
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
 	const [allBooks, recommendBooks] = await Promise.all([
 		fetchBooks(),
 		fetchRandomBooks(),
@@ -30,7 +30,7 @@ export const getServerSideProps = async () => {
 export default function Home({
 	allBooks,
 	recommendBooks,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
 	return (
 		<div className={styles.container}>
 			<section>
