@@ -7,18 +7,38 @@ import { useRouter } from 'next/router';
 // Type
 import { ReactNode } from 'react';
 
-// Mock Data
-import books from '@/mock/books.json';
-
 // Component
 import BookItem from '@/components/book/Book-Item';
 
-export default function Search() {
+// Type
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import fetchBooks from '@/lib/fetchBooks';
+
+export const getServerSideProps = async (
+	context: GetServerSidePropsContext,
+) => {
+	const { q } = context.query;
+	const books = await fetchBooks(q as string);
+	return {
+		props: {
+			books,
+		},
+	};
+};
+
+export default function Search({
+	books,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
 		<div>
 			{books.map(book => (
 				<BookItem key={book.id} {...book} />
 			))}
+			{!books.length && (
+				<p style={{ textAlign: 'center', marginTop: '100px' }}>
+					검색 결과가 없습니다.
+				</p>
+			)}
 		</div>
 	);
 }
