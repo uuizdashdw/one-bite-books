@@ -14,6 +14,9 @@ import BookItem from '@/components/book/Book-Item';
 // API
 import fetchBooks from '@/lib/fetchBooks';
 
+// Head Module for Meta
+import Head from 'next/head';
+
 export default function Search() {
 	const [books, setBooks] = useState<BookData[]>([]);
 
@@ -30,16 +33,27 @@ export default function Search() {
 	}, [q]);
 
 	return (
-		<div>
-			{books.map(book => (
-				<BookItem key={book.id} {...book} />
-			))}
-			{!books.length && (
-				<p style={{ textAlign: 'center', marginTop: '100px' }}>
-					검색 결과가 없습니다.
-				</p>
-			)}
-		</div>
+		<>
+			<Head>
+				<title>위즈의 한입북스 - 검색결과</title>
+				<meta property="og:image" content="/thumbnail.png" />
+				<meta property="og:title" content="위즈의 한입북스 - 검색결과" />
+				<meta
+					property="og:description"
+					content="위즈의 한입 북스에 등록된 도서들을 만나보세요"
+				/>
+			</Head>
+			<div>
+				{books.map(book => (
+					<BookItem key={book.id} {...book} />
+				))}
+				{!books.length && (
+					<p style={{ textAlign: 'center', marginTop: '100px' }}>
+						검색 결과가 없습니다.
+					</p>
+				)}
+			</div>
+		</>
 	);
 }
 
