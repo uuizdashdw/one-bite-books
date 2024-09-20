@@ -21,9 +21,13 @@ export default async function Page({
 
 	return (
 		<div>
-			{books.map(book => (
-				<BookItem key={book.id} {...book} />
-			))}
+			{books && books.map(book => <BookItem key={book.id} {...book} />)}
+			{!books.length && (
+				<p>
+					<span style={{ fontWeight: 'bold' }}>{searchParams.q}</span> 에 대한
+					검색 결과가 없습니다.
+				</p>
+			)}
 		</div>
 	);
 }
