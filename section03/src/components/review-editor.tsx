@@ -6,7 +6,7 @@ import styles from './review-editor.module.css';
 // Server Action
 import { createReviewAction } from '@/actions/create-review.action';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 
 // 도시 리뷰 에디터
 export function ReviewEditor({ bookId }: { bookId: string }) {
@@ -14,6 +14,10 @@ export function ReviewEditor({ bookId }: { bookId: string }) {
 		createReviewAction,
 		null,
 	);
+
+	useEffect(() => {
+		if (state && !state.status) alert(state.error);
+	}, [state]);
 	return (
 		<section>
 			<form action={formAction} className={styles.form_container}>
