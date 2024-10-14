@@ -1,6 +1,9 @@
 // CSS
 import styles from './review-item.module.css';
 
+// Component
+import ReviewItemDeleteButton from './review-item-delete-button';
+
 // Type
 import { ReviewData } from '@/types';
 
@@ -19,7 +22,9 @@ export default function ReviewItem({
 				<div className={styles.date}>
 					{new Date(createdAt).toLocaleString()}
 				</div>
-				<div className={styles.delete_btn}>삭제하기</div>
+				<div className={styles.delete_btn}>
+					<ReviewItemDeleteButton reviewId={id} bookId={bookId} />
+				</div>
 			</div>
 		</div>
 	);
