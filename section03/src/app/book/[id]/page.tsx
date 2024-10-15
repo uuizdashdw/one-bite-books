@@ -8,8 +8,9 @@ import { notFound } from 'next/navigation';
 import { ReviewEditor } from '@/components/review-editor';
 
 // Type
-import { ReviewData } from '@/types';
+import { BookData, ReviewData } from '@/types';
 import ReviewItem from '@/components/review-item';
+import { Metadata } from 'next';
 
 import Image from 'next/image';
 
@@ -78,8 +79,35 @@ async function ReviewList({ bookId }: { bookId: string }) {
 	);
 }
 
+type Params = {
+	params: {
+		id: string;
+	};
+};
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${params.id}`,
+		{ cache: 'force-cache' },
+	);
+
+	if (!response.ok) throw new Error(response.statusText);
+
+	const book: BookData = await response.json();
+
+	return {
+		title: `${book.title} - 위즈의 한입북스`,
+		description: `${book.description}`,
+		openGraph: {
+			title: `${book.title} - 위즈의 한입북스`,
+			description: `${book.description}`,
+			images: [book.coverImgUrl],
+		},
+	};
+}
+
 // 도서 상세 페이지
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: Params) {
 	return (
 		<div className={style.container}>
 			<BookDetail bookId={params.id} />

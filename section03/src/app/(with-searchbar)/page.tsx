@@ -10,6 +10,7 @@ import { BookData } from '@/types';
 
 // Util
 import { delay } from '@/util/delay';
+import { Metadata } from 'next';
 
 // Streaming
 import { Suspense } from 'react';
@@ -57,6 +58,16 @@ async function AllBooks() {
 }
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+	title: '위즈의 한입 북스',
+	description: '위즈의 한입 북스에 등록된 도서를 만나보세요!',
+	openGraph: {
+		title: '위즈의 한입 북스',
+		description: '위즈의 한입 북스에 등록된 도서를 만나보세요!',
+		images: ['/thumbnail.png'],
+	},
+};
 
 export default function Home() {
 	return (
