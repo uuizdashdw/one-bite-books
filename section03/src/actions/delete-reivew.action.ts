@@ -1,8 +1,12 @@
 'use server';
 
+// 특정 태그에 연결된 데이터 재검증
 import { revalidateTag } from 'next/cache';
 
-export async function deleteReviewAction(_: any, formData: FormData) {
+// Type
+import { ReviewActionType } from '@/types';
+
+export async function deleteReviewAction({ _, formData }: ReviewActionType) {
 	const reviewId = formData.get('reviewId')?.toString();
 	const bookId = formData.get('bookId')?.toString();
 

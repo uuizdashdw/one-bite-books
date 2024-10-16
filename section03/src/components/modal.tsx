@@ -3,13 +3,18 @@
 // CSS
 import styles from './modal.module.css';
 
-import { ReactNode, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+// Hooks
+import { useEffect, useRef } from 'react';
 
 // Navigation
 import { useRouter } from 'next/navigation';
 
-export default function Modal({ children }: { children: ReactNode }) {
+// Type
+import { ChildrenType } from '@/types';
+
+import { createPortal } from 'react-dom';
+
+export default function Modal({ children }: ChildrenType) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const router = useRouter();
 

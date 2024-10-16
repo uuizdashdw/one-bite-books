@@ -1,15 +1,15 @@
 'use client';
 
+// Navigation
 import { useRouter } from 'next/navigation';
+
+// Hooks
 import { startTransition, useEffect } from 'react';
 
-export default function Error({
-	error,
-	reset,
-}: {
-	error: Error;
-	reset: () => void;
-}) {
+// Type
+import { ErrorType } from '@/types';
+
+export default function Error({ error, reset }: ErrorType) {
 	const router = useRouter();
 	useEffect(() => {
 		console.error(error.message);

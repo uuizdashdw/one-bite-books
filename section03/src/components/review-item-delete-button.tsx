@@ -6,17 +6,17 @@ import { deleteReviewAction } from '@/actions/delete-reivew.action';
 // Hook
 import { useActionState, useEffect, useRef } from 'react';
 
+// Type
+import { ReviewDeleteType } from '@/types';
+
 export default function ReviewItemDeleteButton({
 	reviewId,
 	bookId,
-}: {
-	reviewId: number;
-	bookId: number;
-}) {
+}: ReviewDeleteType) {
 	const formRef = useRef<HTMLFormElement>(null);
 
 	const [state, formAction, isPending] = useActionState(
-		deleteReviewAction,
+		deleteReviewAction, // 액션 함수
 		null,
 	);
 

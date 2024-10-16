@@ -1,13 +1,16 @@
 'use server';
 
+// 특정 태그에 연결된 데이터 재검증
 import { revalidateTag } from 'next/cache';
 
-export async function createReviewAction(_: any, formData: FormData) {
+// Type
+import { ReviewActionType } from '@/types';
+
+export async function createReviewAction({ _, formData }: ReviewActionType) {
 	const bookId = formData.get('bookId')?.toString();
 	const content = formData.get('content')?.toString();
 	const author = formData.get('author')?.toString();
 
-	console.log(bookId, content, author);
 	if (!content || !author || !bookId) {
 		return {
 			status: false,
