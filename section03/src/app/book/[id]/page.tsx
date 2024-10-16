@@ -9,13 +9,27 @@ import { ReviewEditor } from '@/components/review-editor';
 
 // Type
 import { BookData, ReviewData } from '@/types';
-import ReviewItem from '@/components/review-item';
 import { Metadata } from 'next';
+
+// Component
+import ReviewItem from '@/components/review-item';
 
 import Image from 'next/image';
 
-export function generateStaticParams() {
-	return [{ id: '1' }, { id: '2' }, { id: '3' }];
+export async function generateStaticParams() {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
+	);
+
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
+
+	const books: BookData[] = await response.json();
+
+	return books.map(book => ({
+		id: book.id.toString(),
+	}));
 }
 
 // 도서 상세 정보
