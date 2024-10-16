@@ -1,7 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { delay } from '@/util/delay';
+import { revalidateTag } from 'next/cache';
 
 export async function createReviewAction(_: any, formData: FormData) {
 	const bookId = formData.get('bookId')?.toString();
@@ -18,7 +17,6 @@ export async function createReviewAction(_: any, formData: FormData) {
 
 	// 도서 리뷰 추가 기능
 	try {
-		await delay(2000);
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review`,
 			{
@@ -31,7 +29,7 @@ export async function createReviewAction(_: any, formData: FormData) {
 			throw new Error(response.statusText);
 		}
 
-		revalidatePath(`review-${bookId}`);
+		revalidateTag(`review-${bookId}`);
 
 		return {
 			status: true,
