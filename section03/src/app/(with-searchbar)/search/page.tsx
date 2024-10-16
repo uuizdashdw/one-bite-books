@@ -3,17 +3,13 @@ import BookItem from '@/components/book-item';
 import BookListSkeleton from '@/components/skeleton/book-list-skeleton';
 
 // Type
-import { BookData } from '@/types';
+import { BookData, QueryType } from '@/types';
 import { Metadata } from 'next';
-
-// Util
-import { delay } from '@/util/delay';
 
 // Streaming
 import { Suspense } from 'react';
 
-async function SearchResult({ q }: { q: string }) {
-	await delay(1500);
+async function SearchResult({ q }: QueryType) {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${q}`,
 		{ cache: 'force-cache' },

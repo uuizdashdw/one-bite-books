@@ -1,14 +1,16 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { delay } from '@/util/delay';
+// 특정 태그에 연결된 데이터 재검증
+import { revalidateTag } from 'next/cache';
 
-export async function createReviewAction(_: any, formData: FormData) {
+// Type
+import { ReviewActionType } from '@/types';
+
+export async function createReviewAction({ _, formData }: ReviewActionType) {
 	const bookId = formData.get('bookId')?.toString();
 	const content = formData.get('content')?.toString();
 	const author = formData.get('author')?.toString();
 
-	console.log(bookId, content, author);
 	if (!content || !author || !bookId) {
 		return {
 			status: false,
@@ -18,7 +20,6 @@ export async function createReviewAction(_: any, formData: FormData) {
 
 	// 도서 리뷰 추가 기능
 	try {
-		await delay(2000);
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review`,
 			{
@@ -31,7 +32,7 @@ export async function createReviewAction(_: any, formData: FormData) {
 			throw new Error(response.statusText);
 		}
 
-		revalidatePath(`review-${bookId}`);
+		revalidateTag(`review-${bookId}`);
 
 		return {
 			status: true,

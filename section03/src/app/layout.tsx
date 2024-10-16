@@ -1,10 +1,11 @@
 import './globals.css';
 import Link from 'next/link';
+
+// CSS
 import style from './layout.module.css';
 
-// Type
-import { BookData } from '@/types';
-import { ReactNode } from 'react';
+// Types
+import { BookData, RootLayoutType } from '@/types';
 
 async function Footer() {
 	const response = await fetch(
@@ -28,10 +29,7 @@ async function Footer() {
 export default function RootLayout({
 	children,
 	modal,
-}: Readonly<{
-	children: ReactNode;
-	modal: ReactNode;
-}>) {
+}: Readonly<RootLayoutType>) {
 	return (
 		<html lang="en">
 			<body>

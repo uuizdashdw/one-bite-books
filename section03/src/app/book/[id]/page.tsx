@@ -7,21 +7,36 @@ import { notFound } from 'next/navigation';
 // Components
 import { ReviewEditor } from '@/components/review-editor';
 
-// Type
-import { BookData, ReviewData } from '@/types';
-import ReviewItem from '@/components/review-item';
+// Types
+import { BookData, ReviewData, Params, BookId } from '@/types';
 import { Metadata } from 'next';
+
+// Component
+import ReviewItem from '@/components/review-item';
 
 import Image from 'next/image';
 
-export function generateStaticParams() {
-	return [{ id: '1' }, { id: '2' }, { id: '3' }];
+export async function generateStaticParams() {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
+	);
+
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
+
+	const books: BookData[] = await response.json();
+
+	return books.map(book => ({
+		id: book.id.toString(),
+	}));
 }
 
 // 도서 상세 정보
-async function BookDetail({ bookId }: { bookId: string }) {
+async function BookDetail({ bookId }: BookId) {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`,
+		{ cache: 'force-cache' },
 	);
 
 	if (!response.ok) {
@@ -29,7 +44,7 @@ async function BookDetail({ bookId }: { bookId: string }) {
 		return <div>오류가 발생했습니다...</div>;
 	}
 
-	const book = await response.json();
+	const book: BookData = await response.json();
 
 	const { id, title, subTitle, description, author, publisher, coverImgUrl } =
 		book;
@@ -58,7 +73,7 @@ async function BookDetail({ bookId }: { bookId: string }) {
 }
 
 // 도서 리뷰 리스트
-async function ReviewList({ bookId }: { bookId: string }) {
+async function ReviewList({ bookId }: BookId) {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`,
 		{ next: { tags: [`review-${bookId}`] } },
@@ -78,12 +93,6 @@ async function ReviewList({ bookId }: { bookId: string }) {
 		</section>
 	);
 }
-
-type Params = {
-	params: {
-		id: string;
-	};
-};
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
 	const response = await fetch(

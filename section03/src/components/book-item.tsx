@@ -3,6 +3,7 @@ import style from './book-item.module.css';
 
 // Type
 import type { BookData } from '@/types';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
